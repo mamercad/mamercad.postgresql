@@ -1,0 +1,27 @@
+# https://wiki.postgresql.org/wiki/Apt
+
+- name: install curl ca-certificates gnupg
+  ansible.builtin.apt:
+    state: present
+    name:
+      - curl
+      - ca-certificates
+      - gnupg
+  become: true
+
+- name: install pgdg gpg key
+  ansible.builtin.apt_key:
+    state: present
+    url: "{{ pgdg_gpg_key }}"
+  become: true
+
+- name: deploy pgdg apt repo
+  ansible.builtin.apt_repository:
+    state: present
+    repo: deb http://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main
+  become: true
+
+- name: do an apt update
+  ansible.builtin.apt:
+    update_cache: yes
+  become: true
