@@ -1,0 +1,23 @@
+---
+
+- name: facts
+  hosts: all
+  gather_facts: true
+  become: false
+  tasks:
+    - name: setup
+      ansible.builtin.setup:
+      tags: ['always']
+
+- name: postgres
+  hosts: postgres
+  gather_facts: true
+  become: false
+  tasks:
+    - name: postgres
+      ansible.builtin.include_role:
+        name: postgres
+        tasks_from: main.yml
+        apply:
+          tags: ['postgres']
+      tags: ['postgres']
