@@ -25,3 +25,9 @@
   ansible.builtin.apt:
     update_cache: yes
   become: true
+
+- name: install postgresql
+  ansible.builtin.apt:
+    state: present
+    name: postgresql-{{ versions.postgres }}
+  become: true
